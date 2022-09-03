@@ -35,7 +35,7 @@ benserver.server() can have the following arguments:
  
 
     from benserver import server
-    udpserver = benServer("0.0.0.0",8585)
+    udpserver = server("0.0.0.0",8585)
     def echo(text):
 		return  text
 	udpserver.add_action_handler("echo", echo) # When user send {"action":"echo","data":...}, it will return same data.
