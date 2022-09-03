@@ -10,8 +10,8 @@ BenCommunication use AES CBC algorithm to encrypt the traffic with a key file th
    payload.
  - Generate a unique ID for each request.
 ## Installation
-Download [benserver.py](link.com) and save it on the main directory of project.
-Download requirements.txt and run :
+Download [benserver.py](https://github.com/blaze-Youssef/BenCommunication-Micropython-Server/blob/main/benserver.py) and save it on the main directory of project.
+Download [requirements.txt](https://github.com/blaze-Youssef/BenCommunication-Micropython-Server/blob/main/requirements.txt) and run :
 
     pip install -r requirements.txt
 
@@ -26,7 +26,7 @@ Generate a keyfile using:
 benserver.server() can have the following arguments:
  1. localip (str) => The IP the server is going to listen to, use "0.0.0.0".
  2. port (int) => The port used by server.
- 3. keyfile (str) => (default=key.sec) the keyfile, it contains 32 random bytes. You can generate a key with the server module. 
+ 3. keyfile (str) => (default=key.sec) the keyfile, it contains 32 random bytes. See [Setup](https://github.com/blaze-Youssef/BenCommunication-Micropython-Server#setup) 
  4. timeout (int) => (default=10) How much time to wait for response from server.
  5. buffersize (int) => (default=4096) The buffer for Udp Socket.
  
