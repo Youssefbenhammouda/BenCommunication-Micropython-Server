@@ -4,6 +4,7 @@ import json
 import socket
 import random
 from ast import literal_eval
+import threading
 from Crypto.Cipher import AES
 from hashlib import sha256
 from typing import Callable
@@ -21,7 +22,6 @@ class server:
         s = open(keyfile,"rb")
         self.key =  sha256(s.read()).digest()
         s.close()
-    @staticmethod
     def generate_new_secret(file):
         rand = random.randbytes(32)
         with open(file,"wb") as f:
@@ -61,7 +61,7 @@ class server:
         payload = data['data']
         iv = data['iv']
         auth = self.authentificate(id, payload, iv, data['hash'])
-        if not auth: raise Exception("Error intruder warning!")
+        if not auth: raise Exception("Error in authenficATION.")
         decrypted = self.decrypt(data['data'],data['iv'])
         try:
             decrypted = literal_eval(decrypted)
@@ -79,8 +79,11 @@ class server:
         self.UDPServerSocket.sendto(hashlib.sha256(id+encrypted[0]+encrypted[1]).digest(), self.addr)
         self.UDPServerSocket.sendto(encrypted[1], self.addr)
         self.UDPServerSocket.sendto(encrypted[0], self.addr)
-    def add_action_handler(self,action: str, fun: Callable):
+
+
+    def add_action_handler(self, action: str, fun: Callable):
         self.actions_handlers |= {action:fun}
+    
     def run(self,payload):
         try:
             action = payload["action"]
@@ -107,7 +110,7 @@ class server:
                 data,_ = self.UDPServerSocket.recvfrom(self.bufferSize)
                 payload = self.get_payload(data,id)
                 if "noreturn" in payload:
-                    self.UDPServerSocket.sendto(b"ok",self.addr)
+                    threading.Thread(target=self.run,args=(payload,)).start()
                     continue
                 payload = self.run(payload)
                 self.send_payload(payload,id)
